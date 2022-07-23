@@ -12,5 +12,8 @@
   "dependencies": {
     "sequelize": "^6.21.3",
     "sqlite3": "^5.0.10"
+  },
+  "devDependencies": {
+    "jest": "^28.1.3"
   }
 }
