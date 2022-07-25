@@ -4,6 +4,8 @@ const { specReporter } = require('@japa/spec-reporter')
 const { runFailedTests } = require('@japa/run-failed-tests')
 const { processCliArgs, configure, run } = require('@japa/runner')
 
+const { migrate, rollback } = require('../tests/bootstrap')
+
 /*
 |--------------------------------------------------------------------------
 | Configure tests
@@ -21,10 +23,22 @@ configure({
   ...processCliArgs(process.argv.slice(2)),
   ...{
     files: ['tests/**/*.spec.js'],
-    plugins: [expect(), runFailedTests(), apiClient('http://localhost:3333')],
+    plugins: [
+      expect(), 
+      runFailedTests(), 
+      apiClient('http://localhost:8080')
+    ],
     reporters: [specReporter()],
     importer: (filePath) => require(filePath),
   },
+
+  setup: [
+    migrate()
+  ],
+
+  teardown: [
+    rollback()
+  ]
 })
 
 /*
